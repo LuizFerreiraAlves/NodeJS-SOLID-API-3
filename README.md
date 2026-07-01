@@ -37,6 +37,6 @@ GymPass style app
 2. Run "docker compose up -d" to start Docker
 3. Run "npx prisma migrate dev" to recreate the table in DEV ("npx prisma migrate deploy" for PROD)
 4. Run "npx prisma studio" to start the UI
-5. Check "docker ps (-a)" to see the container's status
+5. Check "docker ps" to see the active container's status, "docker ps -a" sees all the created containers
 
 To shutdown the docker you can run "docker compose down", but this command drops the table, "docker compose stop" simply stops it, "docker compose start" starts it
