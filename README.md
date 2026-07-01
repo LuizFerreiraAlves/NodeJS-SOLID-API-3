@@ -30,3 +30,13 @@ GymPass style app
 - [] The application data must be persisted in a PostgreSQL database.
 - [] All data lists must be paginated with up to 20 items per page.
 - [] The user must be identified by a Json Web Token (JWT).
+
+# To start locally
+
+1. Run "npm run dev" to start the local server
+2. Run "docker compose up -d" to start Docker
+3. Run "npx prisma migrate dev" to recreate the table in DEV ("npx prisma migrate deploy" for PROD)
+4. Run "npx prisma studio" to start the UI
+5. Check "docker ps (-a)" to see the container's status
+
+To shutdown the docker you can run "docker compose down", but this command drops the table, "docker compose stop" simply stops it, "docker compose start" starts it
