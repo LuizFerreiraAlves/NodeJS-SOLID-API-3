@@ -1,19 +1,23 @@
-import { expect, describe, it } from "vitest";
+import { expect, describe, it, beforeEach } from "vitest";
 import { hash } from "bcryptjs";
 import { InMemoryUsersRepository } from "@/repositories/in-memory/in-memory-users-repository";
 import { AuthenticateUseCase } from "./authenticate";
 import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
 
+let usersRepository: InMemoryUsersRepository
+// System Under Test, the authenticateUseCase
+let sut: AuthenticateUseCase
+
 describe("Authenticate use case", () => {
+    beforeEach(() => {
+        usersRepository = new InMemoryUsersRepository()
+        sut = new AuthenticateUseCase(usersRepository)
+    })
+
     it("Should be able to authenticate", async () => {
         const name = "John Doe"
         const email = "johndoe@example.com"
         const password = "123456"
-
-        const usersRepository = new InMemoryUsersRepository()
-
-        // We can call the main tested variable as sut - System Under Test
-        const sut = new AuthenticateUseCase(usersRepository)
 
         await usersRepository.create({
             name,
@@ -30,9 +34,7 @@ describe("Authenticate use case", () => {
     })
 
     it("Should not be able to authenticate with wrong email", async () => {
-        const usersRepository = new InMemoryUsersRepository()
-        const sut = new AuthenticateUseCase(usersRepository)
-
+        // E-mail not previously created, we could also create a user with another e-mail
         await expect(() => 
             sut.execute({
                 email: "johndoe@example.com",
@@ -45,9 +47,6 @@ describe("Authenticate use case", () => {
         const email = "johndoe@example.com"
         const password = "123456"
 
-        const usersRepository = new InMemoryUsersRepository()
-        const sut = new AuthenticateUseCase(usersRepository)
-
         await usersRepository.create({
             name: "John Doe",
             email, 
@@ -56,7 +55,7 @@ describe("Authenticate use case", () => {
 
         await expect(() => 
             sut.execute({
-                email: "johndoe@example.com",
+                email,
                 password: "12345678",
             }),
         ).rejects.toBeInstanceOf(InvalidCredentialsError)
