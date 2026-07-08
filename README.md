@@ -11,14 +11,14 @@ GymPass style app
 - [] The user must be able to retrieve its check-in history.
 - [] The user must be able to search for nearby gyms.
 - [] The user must be able to search gyms by their names.
-- [] The user must check in at a gym.
+- [x] The user must check in at a gym.
 - [] It should be possible to validate a user's check-in.
 - [] It should be possible to register a gym.
 
 ## Business Rules
 
 - [x] The user should not be able to register a duplicate email.
-- [] The user should not be able to check in more than once a day.
+- [x] The user should not be able to check in more than once a day.
 - [] The user should not be able to check in if not within 100 meters of the gym.
 - [] The check-in should be validated up to 20 minutes after it is created.
 - [] The check-in should be validated by administrators.

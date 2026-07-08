@@ -34,7 +34,7 @@ describe("Get user profile use case", () => {
     })
 
     it("Should not be able to get user profile with wrong ID", async () => {
-        // E-mail not previously created, we could also create a user with another e-mail
+        // E-mail not created previously, we could also create a user with another e-mail to simulate the same error
         await expect(() => 
             sut.execute({
                 userId: "non-existing-id"
