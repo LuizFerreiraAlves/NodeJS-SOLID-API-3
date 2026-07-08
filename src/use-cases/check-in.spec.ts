@@ -7,15 +7,19 @@ import { Decimal } from "@prisma/client/runtime/client";
 let checkInsRepository: InMemoryCheckInsRepository
 let gymsRepository: InMemoryGymsRepository
 let sut: CheckInUseCase
+let gymId: string
+let userId: string
 
 describe("Check-in use case", () => {
     beforeEach(() => {
         checkInsRepository = new InMemoryCheckInsRepository()
         gymsRepository = new InMemoryGymsRepository()
         sut = new CheckInUseCase(checkInsRepository, gymsRepository)
+        gymId = "gym-01"
+        userId = "user-01"
 
         gymsRepository.items.push({
-            id: "gym-01",
+            id: gymId,
             title: "Any gym",
             description: "Any description",
             phone: "",
@@ -30,10 +34,7 @@ describe("Check-in use case", () => {
         vi.useRealTimers()
     })
 
-    it("Should be able to check in", async () => {
-        const gymId = "gym-01"
-        const userId = "user-01"
-
+    it("Should be able to check in", async () => {      
         const { checkIn } = await sut.execute({
             gymId,
             userId,
@@ -47,9 +48,6 @@ describe("Check-in use case", () => {
     it("Should not be able to check in more than once a day", async () => {
         vi.setSystemTime(new Date(2022, 0, 20, 8, 0, 0))
         
-        const gymId = "gym-01"
-        const userId = "user-01"
-
         await sut.execute({
             gymId,
             userId,
@@ -70,9 +68,6 @@ describe("Check-in use case", () => {
     it("Should be able to check in twice but in different days", async () => {
         vi.setSystemTime(new Date(2022, 0, 20, 8, 0, 0))
         
-        const gymId = "gym-01"
-        const userId = "user-01"
-
         await sut.execute({
             gymId,
             userId,
