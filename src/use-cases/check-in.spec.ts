@@ -9,6 +9,8 @@ let gymsRepository: InMemoryGymsRepository
 let sut: CheckInUseCase
 let gymId: string
 let userId: string
+let latitude: Decimal
+let longitude: Decimal
 
 describe("Check-in use case", () => {
     beforeEach(() => {
@@ -17,14 +19,16 @@ describe("Check-in use case", () => {
         sut = new CheckInUseCase(checkInsRepository, gymsRepository)
         gymId = "gym-01"
         userId = "user-01"
+        latitude = new Decimal(-22.2215722)
+        longitude = new Decimal(-49.9486152)
 
         gymsRepository.items.push({
             id: gymId,
             title: "Any gym",
             description: "Any description",
             phone: "",
-            latitude: new Decimal(0),
-            longitude: new Decimal(0),
+            latitude: latitude,
+            longitude: longitude,
         })
 
         vi.useFakeTimers()
@@ -38,8 +42,8 @@ describe("Check-in use case", () => {
         const { checkIn } = await sut.execute({
             gymId,
             userId,
-            userLatitude: 0,
-            userLongitude: 0,
+            userLatitude: latitude.toNumber(),
+            userLongitude: longitude.toNumber(),
         })
 
         expect(checkIn.id).toEqual(expect.any(String))
@@ -51,16 +55,16 @@ describe("Check-in use case", () => {
         await sut.execute({
             gymId,
             userId,
-            userLatitude: 0,
-            userLongitude: 0,
+            userLatitude: latitude.toNumber(),
+            userLongitude: longitude.toNumber(),
         })
 
         await expect(() => 
             sut.execute({
                 gymId,
                 userId,
-                userLatitude: 0,
-                userLongitude: 0,
+                userLatitude: latitude.toNumber(),
+                userLongitude: longitude.toNumber(),
             })
         ).rejects.toBeInstanceOf(Error)
     })
@@ -71,8 +75,8 @@ describe("Check-in use case", () => {
         await sut.execute({
             gymId,
             userId,
-            userLatitude: 0,
-            userLongitude: 0,
+            userLatitude: latitude.toNumber(),
+            userLongitude: longitude.toNumber(),
         })
 
         vi.setSystemTime(new Date(2022, 0, 21, 8, 0, 0))
@@ -80,10 +84,32 @@ describe("Check-in use case", () => {
         const { checkIn } = await sut.execute({
             gymId,
             userId,
-            userLatitude: 0,
-            userLongitude: 0,
+            userLatitude: latitude.toNumber(),
+            userLongitude: longitude.toNumber(),
         })
 
         expect(checkIn.id).toEqual(expect.any(String))
+    })
+
+    it("Should not be able to check in on distant gym", async () => {
+        gymId = "gym-02"
+        
+        gymsRepository.items.push({
+            id: gymId,
+            title: "Any gym",
+            description: "Any description",
+            phone: "",
+            latitude: latitude,
+            longitude: longitude,
+        })
+
+        await expect(() => 
+            sut.execute({
+                gymId,
+                userId,
+                userLatitude: -22.0017324,
+                userLongitude: -49.7053919,
+            }),
+        ).rejects.toBeInstanceOf(Error)
     })
 })
