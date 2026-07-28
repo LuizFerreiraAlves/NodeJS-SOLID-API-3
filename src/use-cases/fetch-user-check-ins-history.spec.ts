@@ -38,8 +38,8 @@ describe("Fetch user check-in history use case", () => {
 
     it("Should be able to fetch paginated check-in history", async () => {
         const userId = 'user-01'
-        const numberOfGyms = 22
-        const pageSize = 2
+        const numberOfGyms = 25
+        const page = 2
 
         for (let i = 1; i <= numberOfGyms; i++) {
             await checkInsRepository.create({
@@ -50,13 +50,17 @@ describe("Fetch user check-in history use case", () => {
         
         const { checkIns } = await sut.execute({
             userId: userId,
-            page: pageSize,
+            page: page,
         })
 
-        expect(checkIns).toHaveLength(pageSize)
+        // The page size is 20, so the second page of a 25 items list has 5 items
+        expect(checkIns).toHaveLength(5)
         expect(checkIns).toEqual([
             expect.objectContaining({ gym_id: 'gym-21' }),
             expect.objectContaining({ gym_id: 'gym-22' }),
+            expect.objectContaining({ gym_id: 'gym-23' }),
+            expect.objectContaining({ gym_id: 'gym-24' }),
+            expect.objectContaining({ gym_id: 'gym-25' }),
         ])
     })
 })
