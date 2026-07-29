@@ -12,7 +12,7 @@ GymPass style app
 - [x] The user must be able to search for nearby gyms (up to 10 kilometers away).
 - [x] The user must be able to search gyms by their names.
 - [x] The user must check in at a gym.
-- [] It should be possible to validate a user's check-in.
+- [x] It should be possible to validate a user's check-in.
 - [X] It should be possible to register a gym.
 
 ## Business Rules
