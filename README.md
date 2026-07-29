@@ -9,7 +9,7 @@ GymPass style app
 - [x] It should be possible to obtain the profile from a logged-in user.
 - [x] It should be possible to obtain the amount of check-ins from a logged-in user.
 - [x] The user must be able to retrieve its check-in history.
-- [] The user must be able to search for nearby gyms.
+- [x] The user must be able to search for nearby gyms (up to 10 kilometers away).
 - [x] The user must be able to search gyms by their names.
 - [x] The user must check in at a gym.
 - [] It should be possible to validate a user's check-in.
