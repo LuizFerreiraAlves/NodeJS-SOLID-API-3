@@ -5,8 +5,6 @@ export async function profile(
     request: FastifyRequest, 
     response: FastifyReply
 ) {
-    await request.jwtVerify()
-
     const getUserProfile = makeGetUserProfileUseCase()
 
     const { user } = await getUserProfile.execute({
