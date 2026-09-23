@@ -21,7 +21,7 @@ export async function nearby(
 
     const { gyms } = await fetchNearbyGymsUseCase.execute({
         userLatitude: latitude,
-        userLongitude: longitude
+        userLongitude: longitude,
     })
 
     return response.status(200).send({

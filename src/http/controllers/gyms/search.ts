@@ -17,7 +17,7 @@ export async function search(
 
     const { gyms } = await searchGymsUseCase.execute({
         query,
-        page
+        page,
     })
 
     return response.status(200).send({
