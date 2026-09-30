@@ -8,6 +8,6 @@ export function verifyUserRole(roleToVerify: 'ADMIN' | 'MEMBER') {
             return reply.status(403).send({ message: 'Forbidden.' })
         }
 
-        return role
+        return reply.status(200).send()
     }
 }
