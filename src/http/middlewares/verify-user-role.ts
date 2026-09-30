@@ -1,13 +1,13 @@
-import { FastifyReply, FastifyRequest } from "fastify"
+import { FastifyReply, FastifyRequest } from 'fastify'
 
 export function verifyUserRole(roleToVerify: 'ADMIN' | 'MEMBER') {
-    return async (request: FastifyRequest, response: FastifyReply) => {
+    return async (request: FastifyRequest, reply: FastifyReply) => {
         const { role } = request.user
 
         if (role !== roleToVerify) {
-            return response.status(403).send({ 
-                message: "Forbidden" 
-            })
+            return reply.status(403).send({ message: 'Forbidden.' })
         }
+
+        return role
     }
 }
